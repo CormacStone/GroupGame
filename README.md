@@ -5,8 +5,10 @@
 * mario with gun hes in a wheel chair
 * remmy from RAT a touille
 
+### Final game
+* 2D game
 ### Group Members
-* Cormac Stone
-* Trace Kinghorn
-* Kolby Green
-* Max Johnson
+* Cormac Stone - Code and Game Design
+* Trace Kinghorn - Art, Story
+* Kolby Green - 
+* Max Johnson - Code, Audio, Story
