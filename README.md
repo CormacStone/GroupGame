@@ -2,8 +2,8 @@
 
 ### Game Ideas
 * Clue
-* Murder mystery?
-* 
+* mario with gun
+* remmy from RAT a touille
 
 ### Group Members
 * Cormac Stone
