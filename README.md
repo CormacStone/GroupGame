@@ -7,8 +7,11 @@
 
 ### Final game
 * 2D game
+
 ### Group Members
 * Cormac Stone - Code and Game Design
 * Trace Kinghorn - Art, Story
 * Kolby Green - Art, Code
 * Max Johnson - Code, Audio, Story
+
+### Licensing
