@@ -2,7 +2,7 @@
 
 ### Game Ideas
 * Clue
-* mario with gun
+* mario with gun hes in a wheel chair
 * remmy from RAT a touille
 
 ### Group Members
