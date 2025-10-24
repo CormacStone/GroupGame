@@ -10,5 +10,5 @@
 ### Group Members
 * Cormac Stone - Code and Game Design
 * Trace Kinghorn - Art, Story
-* Kolby Green - 
+* Kolby Green - Art, Code
 * Max Johnson - Code, Audio, Story
