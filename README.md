@@ -1,12 +1,7 @@
 # GroupGame
 
-### Game Ideas
-* Clue
-* mario with gun hes in a wheel chair
-* remmy from RAT a touille
-
-### Final game
-* 2D game
+### Anyone Can Cook
+* 2D metriodvania about a rat who is trying to make his 
 
 ### Group Members
 * Cormac Stone - Code and Game Design
@@ -15,3 +10,4 @@
 * Max Johnson - Code, Audio, Story
 
 ### Licensing
+* Goal is to maybe put on steam
