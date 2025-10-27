@@ -1,5 +1,5 @@
 //Cormac Stone
-boolean l, r, u, d, lcol, rcol, ucol, dcol, onG;
+boolean l, r, u, d, lcol, rcol, ucol, dcol, onG, jAvalible;
 float x, y, vy, gravity, uForce;
 float nFloor;
 Player player;
@@ -8,6 +8,7 @@ void setup() {
   size(600, 600);
   //fullScreen();
   x = 105;
+  jAvalible = true;
   y = 110;
 }
 
@@ -19,68 +20,77 @@ void draw() {
   map.drawMap();
   player = new Player(x, y);
   movement();
-  jump();
-  gravity = 0.6;
-  uForce = -12;
-  vy += gravity;
+  gravity = 0.3;
+  uForce = -player.yspeed;
+  if ( vy < 5 ) vy += gravity;
   y += vy;
   frameRate(60);
 }
 void movement() {
-  if (!lcol) {
-    if (l) {
-      x-=player.xspeed;
-    }
-  }
-  if (!rcol) {
-    if (r) {
-      x+=player.xspeed;
-    }
-  }
+  // --- HORIZONTAL MOVEMENT ---
+  if (!lcol && l)     x -= player.xspeed;
+  if (!rcol && r) x += player.xspeed;
+  // --- GRAVITY ---
+  vy += gravity;
+  y += vy;
 
-  if (!dcol) {
-    if (d) {
-      y+=player.yspeed;
-    }
-  }
-  //colision checks
-  if (x<=player.w/2 ) {
-    lcol= true;
-  } else {
-    lcol = false;
-  }
-  if (x>=width-player.w/2 ) {
-    rcol = true;
-  } else {
-    rcol = false;
-  }
-  if (y<=(player.h/2)) {
+  // --- FLOOR COLLISION ---
+  int playerCol = int(x / map.cellSize);
+  int bottomRow = map.getGroundBelowPlayer(playerCol); // get floor below player
+  float floorY = bottomRow * map.cellSize;
+
+  if (y >= floorY) {
+    y = floorY; // snap exactly on top of the floor
+    vy = 0;
+    onG = true;
+  } else onG = false;
+  // --- CEILING COLLISION ---
+  int topRow = int((y - player.h) / map.cellSize);
+  if (topRow < 0) topRow = 0; // prevent out of bounds
+
+  // check if block above player
+
+  if (map.map[playerCol][topRow].contains(3) || map.map[playerCol][topRow].contains(4)) {
+    y = (topRow + 1) * map.cellSize + player.h; // snap below block
+    vy = 0;
     ucol = true;
   } else {
     ucol = false;
   }
-  if (y >=480) {
-    dcol = true;
-    onG = true;
-    vy = 0;
-    y =490;
-  } else {
-    dcol = false;
+
+  // --- LEFT/RIGHT COLLISIONS ---
+  // --- Calculate player occupied columns/rows ---
+  int playerTopRow = int((y - player.h) / map.cellSize);
+  int playerBottomRow = int((y - 1) / map.cellSize);
+  int leftCol = int((x - 1) / map.cellSize);
+  int rightCol = int((x + player.w) / map.cellSize);
+
+  // --- Constrain to map bounds ---
+  leftCol = constrain(leftCol, 0, map.cols - 1);
+  rightCol = constrain(rightCol, 0, map.cols - 1);
+  playerTopRow = constrain(playerTopRow, 0, map.rows - 1);
+  playerBottomRow = constrain(playerBottomRow, 0, map.rows - 1);
+
+
+  // --- Side collisions ---
+  lcol = false;
+  rcol = false;
+  for (int j = playerTopRow; j <= playerBottomRow; j++) {
+    if (map.map[leftCol][j].contains(3) || map.map[leftCol][j].contains(4)) lcol = true;
+    if (map.map[rightCol][j].contains(3) || map.map[rightCol][j].contains(4)) rcol = true;
   }
-  nFloor = 500;
-  println(map.dval);
-  println(map.rval);
-  println(map.lval);
-  println(map.uval);
-  println("player.x = " + player.x);
-  println("player.y = " + player.y);
-}
-void jump() {
-  if (u && onG) {
+
+
+
+
+  // --- JUMP ---
+  if (u && onG && jAvalible) {
     vy = uForce;
     onG = false;
+    jAvalible = false;
   }
 }
+
 void keyPressed() {
   if (keyCode == 37 || key == 'a' || key == 'A') {
     l = true;
@@ -90,6 +100,7 @@ void keyPressed() {
   }
   if (keyCode == 38 || key == 'w' || key == 'W' && onG) {
     u = true;
+    jAvalible = true;
   }
   if (keyCode == 40 || key == 's' || key == 'S') {
     d = true;

@@ -5,12 +5,12 @@ class Player {
   Player(float x, float y) {
     this.x=x;
     this.y=y;
-    xspeed= 10;
+    xspeed= 4;
     w = 20;
     h = 20;
     yspeed= 10;
     fill(100);
-    rectMode(CENTER);
-    rect(x, y, w, h);
+    rectMode(CORNER);
+    rect(x, y-20, w, h);
   }
 }
