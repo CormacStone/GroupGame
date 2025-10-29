@@ -8,3 +8,18 @@
 
 ## Ideas:
 So this is basically just an average startscreen, and the background is planning on being like a scrolling countertop scene, or maybe a still frame with remy and the chefs running back and forth. Shouldn't be too hard to implement.
+
+
+
+
+
+![HUD mockup](https://github.com/CormacStone/GroupGame/blob/main/docs/MockUps/ssmu.png)
+## Basic info:
+
+ * Remy Color: 9ca9ac
+ * Remy nose: e9b4b4
+ * Cheese Outside/Inside: ffe700/c69900
+ * Counter Color: 4e4e4e
+
+## Ideas:
+The circle in the top, left corner is showing his current state, whether that be hit, neutral, powerup, etc. The cheeses represent his hp, and when it goes down, a cheese is eaten. The main player is remy, and the background and foreground depends on where he is in the game.
