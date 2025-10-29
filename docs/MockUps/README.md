@@ -1,4 +1,4 @@
-![# Start-Screen mockup:] ()
+![# Start-Screen mockup:] (https://github.com/CormacStone/GroupGame/blob/main/docs/MockUps/ssm.png)
 ## Basic info:
 Text Color: 9ca9ac
 
