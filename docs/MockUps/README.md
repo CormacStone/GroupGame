@@ -13,7 +13,7 @@ So this is basically just an average startscreen, and the background is planning
 
 
 
-![HUD mockup](https://github.com/CormacStone/GroupGame/blob/main/docs/MockUps/ssmu.png)
+![HUD mockup](https://github.com/CormacStone/GroupGame/blob/main/docs/MockUps/hudm.png)
 ## Basic info:
 
  * Remy Color: 9ca9ac
