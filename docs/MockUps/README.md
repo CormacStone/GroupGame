@@ -1,3 +1,3 @@
-### Start-Screen mockup:
+# Start-Screen mockup:
 ## Basic info:
-# text color: #9ca9ac
+### Text Color: 9ca9ac
