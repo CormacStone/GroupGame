@@ -24,3 +24,16 @@ So this is basically just an average startscreen, and the background is planning
 
 ## Ideas:
 The circle in the top, left corner is showing his current state, whether that be hit, neutral, powerup, etc. The cheeses represent his hp, and when it goes down, a cheese is eaten. The main player is remy, and the background and foreground depends on where he is in the game.
+
+
+# Game Over Screen Mock Up
+![GameOverMockUp]()
+## Basic Info:
+
+ * Remy nose: e9b4b4
+ * Spotlight ground: bebebe
+ * Spotlight trail/text on bottom of screen: 101010
+ * Text at top of screen: 9ca9ac
+
+## Ideas:
+The screen is static, with some sad music. Probably the easiest of the 3 to make overall.
