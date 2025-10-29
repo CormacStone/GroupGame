@@ -27,7 +27,7 @@ The circle in the top, left corner is showing his current state, whether that be
 
 
 # Game Over Screen Mock Up
-![GameOverMockUp]()
+![GameOverMockUp](https://github.com/CormacStone/GroupGame/blob/main/docs/MockUps/gosm.png)
 ## Basic Info:
 
  * Remy nose: e9b4b4
