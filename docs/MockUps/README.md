@@ -1,3 +1,4 @@
+# Start Screen Mock Up
 ![Start-Screen mockup](https://github.com/CormacStone/GroupGame/blob/main/docs/MockUps/ssmu.png)
 ## Basic info:
 
@@ -12,7 +13,7 @@ So this is basically just an average startscreen, and the background is planning
 
 
 
-
+# HUD Mock Up
 ![HUD mockup](https://github.com/CormacStone/GroupGame/blob/main/docs/MockUps/hudm.png)
 ## Basic info:
 
