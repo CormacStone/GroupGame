@@ -6,7 +6,7 @@
 # Levels
 * Grandma's House (tutorial)
 * Pantry
-* Kitchen Floor/Backyard (Home)
+* Sewers (Home)
 * Stovetops
 * Dishwashing
 * Dining Area
