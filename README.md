@@ -1,7 +1,7 @@
 # GroupGame
 
 ### Anyone Can Cook
-* 2D metriodvania about a rat who is trying to make his final dish "Ratatouille"
+* 2D metriodvania about a rat who is trying to make his final dish "Ratatouille". As he runs around the world he will fight bosses, collect ingridents and save his fellow rats. 
 
 ### Group Members
 * Cormac Stone - Code and Game Design
