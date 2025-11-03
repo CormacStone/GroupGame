@@ -16,7 +16,7 @@ void draw() {
   background(255);
   noStroke();
   rectMode(CORNER);
-  map = new Map();
+  map = new Map("2.csv");
   map.drawMap();
   player = new Player(x, y);
   movement();
@@ -25,10 +25,12 @@ void draw() {
   if ( vy < 5 ) vy += gravity;
   y += vy;
   frameRate(60);
+  println(x);
+  println(y);
 }
 void movement() {
   // --- HORIZONTAL MOVEMENT ---
-  if (!lcol && l)     x -= player.xspeed;
+  if (!lcol && l) x -= player.xspeed;
   if (!rcol && r) x += player.xspeed;
   // --- GRAVITY ---
   vy += gravity;
@@ -59,36 +61,61 @@ void movement() {
   }
 
   // --- LEFT/RIGHT COLLISIONS ---
-  // --- Calculate player occupied columns/rows ---
-  int playerTopRow = int((y - player.h) / map.cellSize);
-  int playerBottomRow = int((y - 1) / map.cellSize);
-  int leftCol = int((x - 1) / map.cellSize);
-  int rightCol = int((x + player.w) / map.cellSize);
-
-  // --- Constrain to map bounds ---
-  leftCol = constrain(leftCol, 0, map.cols - 1);
-  rightCol = constrain(rightCol, 0, map.cols - 1);
-  playerTopRow = constrain(playerTopRow, 0, map.rows - 1);
-  playerBottomRow = constrain(playerBottomRow, 0, map.rows - 1);
-
-
-  // --- Side collisions ---
   lcol = false;
   rcol = false;
-  for (int j = playerTopRow; j <= playerBottomRow; j++) {
-    if (map.map[leftCol][j].contains(3) || map.map[leftCol][j].contains(4)) lcol = true;
-    if (map.map[rightCol][j].contains(3) || map.map[rightCol][j].contains(4)) rcol = true;
+
+  // Predict next positions
+  float nextXLeft = x - player.xspeed;
+  float nextXRight = x + player.xspeed;
+
+  // === LEFT SIDE CHECK ===
+  {
+  int leftCol = int((nextXLeft) / map.cellSize);
+  int topRowLeft = int((y - player.h) / map.cellSize);
+  int bottomRowLeft = int((y - 1) / map.cellSize);
+
+  leftCol = constrain(leftCol, 0, map.cols - 1);
+  topRowLeft = constrain(topRowLeft, 0, map.rows - 1);
+  bottomRowLeft = constrain(bottomRowLeft, 0, map.rows - 1);
+
+  for (int j = topRowLeft; j <= bottomRowLeft; j++) {
+    if (map.map[leftCol][j].contains(3) || map.map[leftCol][j].contains(4)) {
+      lcol = true;
+      // snap player just to the right of this block
+      x = (leftCol + 1) * map.cellSize;
+      break;
+    }
   }
+}
 
+// === RIGHT SIDE CHECK ===
+{
+int rightCol = int((nextXRight + player.w) / map.cellSize);
+int topRowRight = int((y - player.h) / map.cellSize);
+int bottomRowRight = int((y - 1) / map.cellSize);
 
+rightCol = constrain(rightCol, 0, map.cols - 1);
+topRowRight = constrain(topRowRight, 0, map.rows - 1);
+bottomRowRight = constrain(bottomRowRight, 0, map.rows - 1);
 
-
-  // --- JUMP ---
-  if (u && onG && jAvalible) {
-    vy = uForce;
-    onG = false;
-    jAvalible = false;
+for (int j = topRowRight; j <= bottomRowRight; j++) {
+  if (map.map[rightCol][j].contains(3) || map.map[rightCol][j].contains(4)) {
+    rcol = true;
+    // snap player just to the left of this block
+    x = (rightCol * map.cellSize) - player.w - 0.1;
+    break;
   }
+}
+}
+
+
+
+// --- JUMP ---
+if (u && onG && jAvalible) {
+  vy = uForce;
+  onG = false;
+  jAvalible = false;
+}
 }
 
 void keyPressed() {
