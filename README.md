@@ -13,4 +13,4 @@
 * Goal is to maybe put on steam
 
 ### Documents and Diagrams
-[Class Diagram](https://github.com/CormacStone/GroupGame/blob/main/docs/Classes/ACCclasses.drawio.png?raw=true)
+![Class Diagram](https://github.com/CormacStone/GroupGame/blob/main/docs/Classes/ACCclasses.drawio.png?raw=true)
