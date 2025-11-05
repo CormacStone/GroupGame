@@ -2,6 +2,7 @@
 boolean l, r, u, d, lcol, rcol, ucol, dcol, onG, jAvalible;
 float x, y, vy, gravity, uForce;
 float nFloor;
+int mVar;
 Player player;
 Map map;
 void setup() {
@@ -10,13 +11,20 @@ void setup() {
   x = 105;
   jAvalible = true;
   y = 110;
+  mVar = 3;
 }
 
 void draw() {
   background(255);
   noStroke();
   rectMode(CORNER);
-  map = new Map("2.csv");
+  if (mVar == 2) {
+    map = new Map("2.csv");
+  } else if (mVar == 3) {
+    map = new Map("3.csv");
+  } else {
+    map = new Map();
+  }
   map.drawMap();
   player = new Player(x, y);
   movement();
@@ -103,6 +111,9 @@ for (int j = topRowRight; j <= bottomRowRight; j++) {
     rcol = true;
     // snap player just to the left of this block
     x = (rightCol * map.cellSize) - player.w - 0.1;
+    break;
+  } else if (map.map[rightCol][j].contains(5)) {
+    mVar +=1;
     break;
   }
 }
