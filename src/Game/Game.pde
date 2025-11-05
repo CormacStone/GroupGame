@@ -3,11 +3,13 @@ boolean l, r, u, d, lcol, rcol, ucol, dcol, onG, jAvalible;
 float x, y, vy, gravity, uForce;
 float nFloor;
 int mVar;
+String placeHolder;
 Player player;
 Map map;
+Boss boss;
 void setup() {
   size(600, 600);
-  //fullScreen();
+  fullScreen();
   x = 105;
   jAvalible = true;
   y = 110;
@@ -27,7 +29,9 @@ void draw() {
   }
   map.drawMap();
   player = new Player(x, y);
+  player.display();
   movement();
+  boss = new Boss(100,100,20,20,placeHolder);
   gravity = 0.3;
   uForce = -player.yspeed;
   if ( vy < 5 ) vy += gravity;

@@ -2,7 +2,6 @@ class Map {
   ArrayList<Integer>[][] map;
   int cellSize = 20;
   int rows, cols, mval = 0;
-  int ta, ty, tx;
   int location, rval, lval, dval, uval;
   String fileName;
 
