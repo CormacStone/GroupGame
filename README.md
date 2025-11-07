@@ -1,4 +1,4 @@
-# GroupGame
+# Anyone Can Cook
 
 ### Anyone Can Cook
 * 2D metriodvania about a rat who is trying to make his final dish "Ratatouille". As he runs around the world he will fight bosses, collect ingridents and save his fellow rats. 
