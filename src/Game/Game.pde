@@ -13,20 +13,15 @@ void setup() {
   x = 105;
   jAvalible = true;
   y = 110;
-  mVar = 3;
+  mVar = 1;
 }
 
 void draw() {
   background(255);
   noStroke();
+  noCursor();
   rectMode(CORNER);
-  if (mVar == 2) {
-    map = new Map("2.csv");
-  } else if (mVar == 3) {
-    map = new Map("3.csv");
-  } else {
-    map = new Map();
-  }
+  map = new Map(mVar+".csv");
   map.drawMap();
   player = new Player(x, y);
   player.display();
@@ -118,6 +113,8 @@ for (int j = topRowRight; j <= bottomRowRight; j++) {
     break;
   } else if (map.map[rightCol][j].contains(5)) {
     mVar +=1;
+    x=100;
+    y=100;
     break;
   }
 }
@@ -126,7 +123,7 @@ for (int j = topRowRight; j <= bottomRowRight; j++) {
 
 
 // --- JUMP ---
-if (u && onG && jAvalible) {
+if (u && onG || jAvalible) {
   vy = uForce;
   onG = false;
   jAvalible = false;
