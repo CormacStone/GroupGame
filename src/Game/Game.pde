@@ -26,7 +26,7 @@ void draw() {
   player = new Player(x, y);
   player.display();
   movement();
-  boss = new Boss(100,100,20,20,placeHolder);
+  boss = new Boss(100, 100, 20, 20, placeHolder);
   gravity = 0.3;
   uForce = -player.yspeed;
   if ( vy < 5 ) vy += gravity;
@@ -90,6 +90,11 @@ void movement() {
       lcol = true;
       // snap player just to the right of this block
       x = (leftCol + 1) * map.cellSize;
+      break;
+    } else if (map.map[leftCol][j].contains(5)) {
+      mVar -=1;
+      x=100;
+      y=100;
       break;
     }
   }
