@@ -1,4 +1,4 @@
-//Kolby Green + Maxwell Johnson (we're in love(platonically)(I had to say that)(under duress))
+//Kolby Green + Maxwell Johnson
 class Enemy {
    int x,y,w,h,xspeed;
    PImage guy;
