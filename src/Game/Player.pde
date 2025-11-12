@@ -20,10 +20,11 @@ class Player {
   }
 
   void display() {
-    fill(255, 0, 0);
-    rect(x, y, w, h);
+    fill(255, 0, 0);    
+    //rect(x, y, w, h);
     remmy = loadImage("remmeigh3-3.png");
-    image(remmy, x-40, y-80);
+    image(remmy, x-40, y-20);
+
   }
 
   void handleMovement() {
@@ -82,8 +83,8 @@ class Player {
     int leftTile = map.getTile(playerColLeft, playerRow);
     int rightTile = map.getTile(playerColRight, playerRow);
 
-    if (leftTile == 5) loadNextMap(1);
-    if (rightTile == 5) loadNextMap(2);
+    if (leftTile == 5) loadNextMap("left");
+    if (rightTile == 5) loadNextMap("right");
 
 
     // Commit updates
@@ -91,11 +92,15 @@ class Player {
     player.y = newY;
   }
 
-  void loadNextMap(int i) {
-    if (i == 1) currentLevel--;
-    i+=3;
-    if (i == 2) currentLevel++;
-    i+=3;
+  void loadNextMap(String e) {
+    if (e=="left") {
+      currentLevel--;
+      e = "done";
+    }
+    if (e == "right") {
+      currentLevel++;
+      e = "donw";
+    }
     String nextMapFile = currentLevel + ".csv";
     println("Loading next map: " + nextMapFile);
 

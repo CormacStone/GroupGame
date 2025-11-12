@@ -2,22 +2,23 @@
 boolean l, r, u, jAvail;  // movement keys
 boolean onGround;
 float gravity = 0.4;
-float jumpForce = -50;
+float jumpForce = -12;
 float camX = 0;
 float camY = 0;
 float camSmooth = 0.1;  // smaller = smoother
-int currentLevel = 4;
+int currentLevel = 1;
 Player player;
 Map map;
+Enemy guy;
 Menu menu;
-
 void setup() {
   jAvail = false;
   size(600, 600);
-  fullScreen();
-  map = new Map(4 + ".csv");   // loads CSV or defaults if missing
-  player = new Player(100, 100, 18, 18, 3); // (x, y, w, h, xspeed)
+  //fullScreen();
   menu = new Menu();
+  map = new Map(1 + ".csv");   // loads CSV or defaults if missing
+  player = new Player(100, 100, 18, 80, 3); // (x, y, w, h, xspeed)
+  guy = new Enemy(250, 250, 50, 50); // (x,y,w,h)
 }
 
 void draw() {
@@ -31,10 +32,11 @@ void draw() {
   // --- Apply camera ---
   pushMatrix();
   translate(-camX, -camY);
-
   map.drawMap();
   player.display();
   player.handleMovement();
+  guy.display();
+  guy.move();
   popMatrix();
 }
 

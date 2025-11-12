@@ -7,7 +7,7 @@ class Enemy {
     this.y=y;
     this.h=h;
     this.w=w;
-    xspeed=5;
+    xspeed=3;
   }
 
   void display() {
