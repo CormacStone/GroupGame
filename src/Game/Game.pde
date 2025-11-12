@@ -9,6 +9,7 @@ float camSmooth = 0.1;  // smaller = smoother
 int currentLevel = 4;
 Player player;
 Map map;
+Menu menu;
 
 void setup() {
   jAvail = false;
@@ -16,6 +17,7 @@ void setup() {
   fullScreen();
   map = new Map(4 + ".csv");   // loads CSV or defaults if missing
   player = new Player(100, 100, 18, 18, 3); // (x, y, w, h, xspeed)
+  menu = new Menu();
 }
 
 void draw() {
@@ -41,6 +43,7 @@ void keyPressed() {
   if (key == 'a') l = true;
   if (key == 'd') r = true;
   if (key == 'w' || key == ' ') u = true;
+  if (key == 'e') menu.display();
 }
 
 void keyReleased() {
