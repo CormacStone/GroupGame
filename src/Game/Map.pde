@@ -1,3 +1,4 @@
+//Cormac Stone
 class Map {
   int[][] map;
   int cellSize = 20;
