@@ -22,21 +22,20 @@ void setup() {
 
 void draw() {
   background(255);
-
-
-
   // --- Smooth camera follow ---
   float targetCamX = constrain(player.x - width / 2, 0, map.cols * map.cellSize - width);
   float targetCamY = constrain(player.y - height / 2, 0, map.rows * map.cellSize - height);
-
   camX = lerp(camX, targetCamX, camSmooth);
   camY = lerp(camY, targetCamY, camSmooth);
 
-  // --- Apply camera transform ---
+  // --- Apply camera ---
+  pushMatrix();
   translate(-camX, -camY);
-  map.drawMap(camX, camY);
+
+  map.drawMap();
   player.display();
   player.handleMovement();
+  popMatrix();
 }
 
 void keyPressed() {
