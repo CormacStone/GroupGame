@@ -1,167 +1,138 @@
-//Cormac Stone
-boolean l, r, u, d, lcol, rcol, ucol, dcol, onG, jAvalible;
-float x, y, vy, gravity, uForce;
-float nFloor;
-int mVar;
-String placeHolder;
+// ===========================================================
+// MAIN SKETCH
+// ===========================================================
+// Cormac Stone — 2D Platformer Framework
+// Compatible with your Map class
+// ===========================================================
+
+boolean l, r, u, jAvail;  // movement keys
+boolean onGround;
+float gravity = 0.4;
+float jumpForce = -12;
+float camX = 0;
+float camY = 0;
+float camSmooth = 0.1;  // smaller = smoother
+int currentLevel;
 Player player;
 Map map;
-Boss boss;
+
 void setup() {
+  jAvail = false;
   size(600, 600);
   fullScreen();
-  x = 105;
-  jAvalible = true;
-  y = 110;
-  mVar = 1;
+  map = new Map(2 + ".csv");   // loads CSV or defaults if missing
+  player = new Player(100, 100, 18, 18, 3); // (x, y, w, h, xspeed)
 }
 
 void draw() {
   background(255);
-  noStroke();
-  noCursor();
-  rectMode(CORNER);
-  map = new Map(mVar+".csv");
-  map.drawMap();
-  player = new Player(x, y);
+
+  handleMovement();
+
+  // --- Smooth camera follow ---
+  float targetCamX = constrain(player.x - width / 2, 0, map.cols * map.cellSize - width);
+  float targetCamY = constrain(player.y - height / 2, 0, map.rows * map.cellSize - height);
+
+  camX = lerp(camX, targetCamX, camSmooth);
+  camY = lerp(camY, targetCamY, camSmooth);
+
+  // --- Apply camera transform ---
+  translate(-camX, -camY);
+
+  map.drawMap(camX, camY);
   player.display();
-  movement();
-  boss = new Boss(100, 100, 20, 20, placeHolder);
-  gravity = 0.3;
-  uForce = -player.yspeed;
-  if ( vy < 5 ) vy += gravity;
-  y += vy;
-  frameRate(60);
-  println(x);
-  println(y);
 }
-void movement() {
-  // --- HORIZONTAL MOVEMENT ---
-  if (!lcol && l) x -= player.xspeed;
-  if (!rcol && r) x += player.xspeed;
-  // --- GRAVITY ---
-  vy += gravity;
-  y += vy;
 
-  // --- FLOOR COLLISION ---
-  int playerCol = int(x / map.cellSize);
-  int bottomRow = map.getGroundBelowPlayer(playerCol); // get floor below player
-  float floorY = bottomRow * map.cellSize;
+void handleMovement() {
+  float newX = player.x;
+  float newY = player.y;
 
-  if (y >= floorY) {
-    y = floorY; // snap exactly on top of the floor
-    vy = 0;
-    onG = true;
-  } else onG = false;
-  // --- CEILING COLLISION ---
-  int topRow = int((y - player.h) / map.cellSize);
-  if (topRow < 0) topRow = 0; // prevent out of bounds
-
-  // check if block above player
-
-  if (map.map[playerCol][topRow].contains(3) || map.map[playerCol][topRow].contains(4)) {
-    y = (topRow + 1) * map.cellSize + player.h; // snap below block
-    vy = 0;
-    ucol = true;
-  } else {
-    ucol = false;
+  // Horizontal movement
+  if (l && !map.hasSolidToLeft(player.x, player.y, player.h)) {
+    newX -= player.xspeed;
+  }
+  if (r && !map.hasSolidToRight(player.x, player.y, player.w, player.h)) {
+    newX += player.xspeed;
   }
 
-  // --- LEFT/RIGHT COLLISIONS ---
-  lcol = false;
-  rcol = false;
+  // Apply gravity
+  if (!onGround) player.vy += gravity;
 
-  // Predict next positions
-  float nextXLeft = x - player.xspeed;
-  float nextXRight = x + player.xspeed;
+  // Vertical movement
+  newY += player.vy;
 
-  // === LEFT SIDE CHECK ===
-  {
-  int leftCol = int((nextXLeft) / map.cellSize);
-  int topRowLeft = int((y - player.h) / map.cellSize);
-  int bottomRowLeft = int((y - 1) / map.cellSize);
+  // --- Floor collision ---
+  onGround = false;
+  int colLeft = int(newX / map.cellSize);
+  int colRight = int((newX + player.w - 1) / map.cellSize);
+  int bottomRow = int((newY + player.h) / map.cellSize);
 
-  leftCol = constrain(leftCol, 0, map.cols - 1);
-  topRowLeft = constrain(topRowLeft, 0, map.rows - 1);
-  bottomRowLeft = constrain(bottomRowLeft, 0, map.rows - 1);
-
-  for (int j = topRowLeft; j <= bottomRowLeft; j++) {
-    if (map.map[leftCol][j].contains(3) || map.map[leftCol][j].contains(4)) {
-      lcol = true;
-      // snap player just to the right of this block
-      x = (leftCol + 1) * map.cellSize;
-      break;
-    } else if (map.map[leftCol][j].contains(5)) {
-      mVar -=1;
-      x=100;
-      y=100;
+  for (int c = colLeft; c <= colRight; c++) {
+    if (map.isSolid(c, bottomRow)) {
+      newY = bottomRow * map.cellSize - player.h; // snap to ground
+      player.vy = 0;
+      onGround = true;
       break;
     }
   }
-}
 
-// === RIGHT SIDE CHECK ===
-{
-int rightCol = int((nextXRight + player.w) / map.cellSize);
-int topRowRight = int((y - player.h) / map.cellSize);
-int bottomRowRight = int((y - 1) / map.cellSize);
-
-rightCol = constrain(rightCol, 0, map.cols - 1);
-topRowRight = constrain(topRowRight, 0, map.rows - 1);
-bottomRowRight = constrain(bottomRowRight, 0, map.rows - 1);
-
-for (int j = topRowRight; j <= bottomRowRight; j++) {
-  if (map.map[rightCol][j].contains(3) || map.map[rightCol][j].contains(4)) {
-    rcol = true;
-    // snap player just to the left of this block
-    x = (rightCol * map.cellSize) - player.w - 0.1;
-    break;
-  } else if (map.map[rightCol][j].contains(5)) {
-    mVar +=1;
-    x=100;
-    y=100;
-    break;
+  // --- Ceiling collision ---
+  int topRow = int(newY / map.cellSize);
+  for (int c = colLeft; c <= colRight; c++) {
+    if (map.isSolid(c, topRow)) {
+      newY = (topRow + 1) * map.cellSize;
+      player.vy = 0;
+    }
   }
-}
-}
+
+  // --- Jumping ---
+  if (u && onGround || jAvail) {
+    player.vy = jumpForce;
+    onGround = false;
+    jAvail = false;
+  }
+
+  int playerColLeft = int(player.x / map.cellSize);
+  int playerColRight = int((player.x + player.w - 1) / map.cellSize);
+  int playerRow = int((player.y + player.h / 2) / map.cellSize);
+
+  int leftTile = map.getTile(playerColLeft, playerRow);
+  int rightTile = map.getTile(playerColRight, playerRow);
+
+  if (leftTile == 5) loadNextMap(1);
+  if (rightTile == 5) loadNextMap(2);
 
 
-
-// --- JUMP ---
-if (u && onG || jAvalible) {
-  vy = uForce;
-  onG = false;
-  jAvalible = false;
+  // Commit updates
+  player.x = newX;
+  player.y = newY;
 }
+void loadNextMap(int i) {
+  if (i == 1) currentLevel--;
+  if (i == 2) currentLevel++;
+  String nextMapFile = currentLevel + ".csv";
+  println("Loading next map: " + nextMapFile);
+
+  map = new Map(nextMapFile);
+
+  // Reset player to start position
+  player.x = 50;
+  player.y = 50;
+  player.vy = 0;
+
+  // Reset camera too
+  camX = 0;
+  camY = 0;
 }
 
 void keyPressed() {
-  if (keyCode == 37 || key == 'a' || key == 'A') {
-    l = true;
-  }
-  if (keyCode == 39 || key == 'd' || key == 'D') {
-    r = true;
-  }
-  if (keyCode == 38 || key == 'w' || key == 'W' && onG) {
-    u = true;
-    jAvalible = true;
-  }
-  if (keyCode == 40 || key == 's' || key == 'S') {
-    d = true;
-  }
-  //println(keyCode);
+  if (key == 'a') l = true;
+  if (key == 'd') r = true;
+  if (key == 'w' || key == ' ') u = true;
 }
+
 void keyReleased() {
-  if (keyCode == 37 || key == 'a' || key == 'A') {
-    l = false;
-  }
-  if (keyCode == 39 || key == 'd' || key == 'D') {
-    r = false;
-  }
-  if (keyCode == 38 || key == 'w' || key == 'W') {
-    u = false;
-  }
-  if (keyCode == 40 || key == 's' || key == 'S') {
-    d = false;
-  }
+  if (key == 'a') l = false;
+  if (key == 'd') r = false;
+  if (key == 'w' || key == ' ') u = false;
 }

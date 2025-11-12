@@ -1,19 +1,25 @@
 class Player {
-  int health, yspeed, xspeed, w, h;
-  String State;
   float x, y;
+  float w, h;
+  float xspeed;
+  float vy; // vertical velocity
+  PImage remmy;
+
   Player(float x, float y) {
-    this.x=x;
-    this.y=y;
-    xspeed= 4;
-    w = 20;
-    h = 20;
-    yspeed= 10;
-    fill(100);
+    this(x, y, 20, 20, 3);
+  }
+
+  Player(float x, float y, float w, float h, float xspeed) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.xspeed = xspeed;
+    this.vy = 0;
   }
 
   void display() {
-    rectMode(CORNER);
-    rect(x, y-20, w, h);
+    fill(255, 0, 0);
+    rect(x, y, w, h);
   }
 }

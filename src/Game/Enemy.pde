@@ -1,4 +1,3 @@
-//Kolby Green
 class Enemy {
    int x,y,w,h;
   Enemy(int x, int y, int h, int w, String type) {
