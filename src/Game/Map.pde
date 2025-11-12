@@ -118,13 +118,8 @@ class Map {
     mapLayer.endDraw();
   }
 
-  // -------------------------------------------------------------------------
-  // Draw only the visible portion
-  void drawMap(float cameraX, float cameraY) {
-    int visibleW = width;
-    int visibleH = height;
-    image(mapLayer, -cameraX, -cameraY,
-      mapLayer.width, mapLayer.height);
+  void drawMap() {
+    image(mapLayer, 0, 0);
   }
 
   // -------------------------------------------------------------------------
