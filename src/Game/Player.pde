@@ -70,7 +70,7 @@ class Player {
     }
 
     // --- Jumping ---
-    if (u && onGround || jAvail) {
+    if (u && onGround &&jAvail) {
       player.vy = jumpForce;
       onGround = false;
       jAvail = false;
